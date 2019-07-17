@@ -10,6 +10,7 @@ import java.util.Map;
 public class LexicalScanner {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
+    private final Map<String, Object> inputVariables;
     private int start = 0;
     private int current = 0;
     private int line = 1;
@@ -23,8 +24,14 @@ public class LexicalScanner {
         keywords.put("true",   TokenType.TRUE);
     }
 
+    public LexicalScanner(String source, Map inputVariables) {
+        this.source = source;
+        this.inputVariables = inputVariables;
+    }
+
     public LexicalScanner(String source) {
         this.source = source;
+        this.inputVariables = new HashMap<>();
     }
 
     public List<Token> scanTokens() {
@@ -100,9 +107,19 @@ public class LexicalScanner {
 
         TokenType type = keywords.get(text);
         if (type == null) {
-            type = TokenType.IDENTIFIER;
+            if (inputVariables.containsKey(text) && inputVariables.get(text) instanceof Number) {
+                addToken(TokenType.NUMBER,
+                        Double.parseDouble(inputVariables.get(text).toString()));
+            } else if (inputVariables.containsKey(text) && inputVariables.get(text) instanceof Boolean) {
+                type = keywords.get(inputVariables.get(text).toString());
+                addToken(type);
+            } else {
+                type = TokenType.IDENTIFIER;
+                addToken(type);
+            }
+        } else {
+            addToken(type);
         }
-        addToken(type);
     }
 
     private void number() {
