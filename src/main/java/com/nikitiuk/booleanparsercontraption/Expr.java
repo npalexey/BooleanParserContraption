@@ -1,4 +1,4 @@
-package com.somegroup.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption;
 
 abstract class Expr {
   interface Visitor<R> {

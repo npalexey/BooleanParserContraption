@@ -1,4 +1,4 @@
-package com.somegroup.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption;
 
 class Token {
     final TokenType type;

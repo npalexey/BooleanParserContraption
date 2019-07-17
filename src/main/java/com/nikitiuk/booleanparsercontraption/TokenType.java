@@ -1,4 +1,4 @@
-package com.somegroup.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption;
 
 enum TokenType {
     LEFT_PAREN, RIGHT_PAREN,

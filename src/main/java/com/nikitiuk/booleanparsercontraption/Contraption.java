@@ -1,4 +1,4 @@
-package com.somegroup.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption;
 
 import java.io.BufferedReader;
 import java.io.IOException;

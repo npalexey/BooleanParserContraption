@@ -1,4 +1,4 @@
-package com.somegroup.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption;
 
 class RuntimeError extends RuntimeException {
     final Token token;
