@@ -1,6 +1,4 @@
-package somegroup.booleanparsercontraption;
-
-import java.util.List;
+package com.somegroup.booleanparsercontraption;
 
 abstract class Expr {
   interface Visitor<R> {

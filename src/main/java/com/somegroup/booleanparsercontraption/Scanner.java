@@ -1,11 +1,9 @@
-package somegroup.booleanparsercontraption;
+package com.somegroup.booleanparsercontraption;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static somegroup.booleanparsercontraption.TokenType.*;
 
 class Scanner {
     private final String source;
@@ -18,9 +16,9 @@ class Scanner {
 
     static {
         keywords = new HashMap<>();
-        keywords.put("false",  FALSE);
-        keywords.put("null",    NULL);
-        keywords.put("true",   TRUE);
+        keywords.put("false",  TokenType.FALSE);
+        keywords.put("null",    TokenType.NULL);
+        keywords.put("true",   TokenType.TRUE);
     }
 
     Scanner(String source) {
@@ -33,33 +31,33 @@ class Scanner {
             scanToken();
         }
 
-        tokens.add(new Token(EOF, "", null, line));
+        tokens.add(new Token(TokenType.EOF, "", null, line));
         return tokens;
     }
 
     private void scanToken() {
         char c = advance();
         switch (c) {
-            case '(': addToken(LEFT_PAREN); break;
-            case ')': addToken(RIGHT_PAREN); break;
-            case '-': addToken(MINUS); break;
-            case '+': addToken(PLUS); break;
-            case '*': addToken(STAR); break;
-            case '/': addToken(SLASH); break;
-            case '!': addToken(match('=') ? BANG_EQUAL : BANG); break;
-            case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL); break;
-            case '<': addToken(match('=') ? LESS_EQUAL : LESS); break;
-            case '>': addToken(match('=') ? GREATER_EQUAL : GREATER); break;
+            case '(': addToken(TokenType.LEFT_PAREN); break;
+            case ')': addToken(TokenType.RIGHT_PAREN); break;
+            case '-': addToken(TokenType.MINUS); break;
+            case '+': addToken(TokenType.PLUS); break;
+            case '*': addToken(TokenType.STAR); break;
+            case '/': addToken(TokenType.SLASH); break;
+            case '!': addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG); break;
+            case '=': addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL); break;
+            case '<': addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS); break;
+            case '>': addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER); break;
             case '&':
                 if(match('&')){
-                    addToken(AND);
+                    addToken(TokenType.AND);
                 } else {
                     Contraption.error(line, "Unexpected character.");
                 }
                 break;
             case '|':
                 if(match('|')){
-                    addToken(OR);
+                    addToken(TokenType.OR);
                 } else {
                     Contraption.error(line, "Unexpected character.");
                 }
@@ -94,7 +92,7 @@ class Scanner {
 
         TokenType type = keywords.get(text);
         if (type == null) {
-            type = IDENTIFIER;
+            type = TokenType.IDENTIFIER;
         }
         addToken(type);
     }
@@ -108,7 +106,7 @@ class Scanner {
             while (isDigit(peek())) advance();
         }
 
-        addToken(NUMBER,
+        addToken(TokenType.NUMBER,
                 Double.parseDouble(source.substring(start, current)));
     }
 
@@ -129,7 +127,7 @@ class Scanner {
         advance();
 
         String value = source.substring(start + 1, current - 1);
-        addToken(STRING, value);
+        addToken(TokenType.STRING, value);
     }
 
 

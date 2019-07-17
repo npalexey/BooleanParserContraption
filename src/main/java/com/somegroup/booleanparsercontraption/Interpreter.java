@@ -1,4 +1,4 @@
-package somegroup.booleanparsercontraption;
+package com.somegroup.booleanparsercontraption;
 
 class Interpreter implements Expr.Visitor<Object> {
 
