@@ -1,12 +1,15 @@
-package com.nikitiuk.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption.model;
 
-class Interpreter implements Expr.Visitor<Object> {
+import com.nikitiuk.booleanparsercontraption.error.ExceptionHandler;
+import com.nikitiuk.booleanparsercontraption.service.Contraption;
 
-    void interpret(Expr expression) {
+public class Interpreter implements Expr.Visitor<Object> {
+
+    public void interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
             System.out.println(stringify(value));
-        } catch (RuntimeError error) {
+        } catch (ExceptionHandler error) {
             Contraption.runtimeError(error);
         }
     }
@@ -20,7 +23,7 @@ class Interpreter implements Expr.Visitor<Object> {
     public Object visitLogicalExpr(Expr.Logical expr) {
         Object left = evaluate(expr.left);
 
-        if (expr.operator.type == TokenType.OR) {
+        if (expr.operator.getType() == TokenType.OR) {
             if (isTruthy(left)) return left;
         } else {
             if (!isTruthy(left)) return left;
@@ -33,7 +36,7 @@ class Interpreter implements Expr.Visitor<Object> {
     public Object visitUnaryExpr(Expr.Unary expr) {
         Object right = evaluate(expr.right);
 
-        switch (expr.operator.type) {
+        switch (expr.operator.getType()) {
             case BANG:
                 return !isTruthy(right);
             case MINUS:
@@ -46,14 +49,14 @@ class Interpreter implements Expr.Visitor<Object> {
 
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
-        throw new RuntimeError(operator, "Operand must be a number.");
+        throw new ExceptionHandler(operator, "Operand must be a number.");
     }
 
     private void checkNumberOperands(Token operator,
                                      Object left, Object right) {
         if (left instanceof Double && right instanceof Double) return;
 
-        throw new RuntimeError(operator, "Operands must be numbers.");
+        throw new ExceptionHandler(operator, "Operands must be numbers.");
     }
 
     private boolean isTruthy(Object object) {
@@ -71,7 +74,7 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     private String stringify(Object object) {
-        if (object == null) return "nil";
+        if (object == null) return "null";
 
         if (object instanceof Double) {
             String text = object.toString();
@@ -98,7 +101,7 @@ class Interpreter implements Expr.Visitor<Object> {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
 
-        switch (expr.operator.type) {
+        switch (expr.operator.getType()) {
             case BANG_EQUAL: return !isEqual(left, right);
             case EQUAL_EQUAL: return isEqual(left, right);
             case GREATER:
@@ -124,7 +127,7 @@ class Interpreter implements Expr.Visitor<Object> {
                 if (left instanceof String && right instanceof String) {
                     return (String)left + (String)right;
                 }
-                throw new RuntimeError(expr.operator,
+                throw new ExceptionHandler(expr.operator,
                         "Operands must be two numbers or two strings.");
             case SLASH:
                 checkNumberOperands(expr.operator, left, right);

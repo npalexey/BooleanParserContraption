@@ -1,11 +1,13 @@
-package com.nikitiuk.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption.model;
+
+import com.nikitiuk.booleanparsercontraption.service.Contraption;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class Scanner {
+public class LexicalScanner {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
@@ -17,15 +19,15 @@ class Scanner {
     static {
         keywords = new HashMap<>();
         keywords.put("false",  TokenType.FALSE);
-        keywords.put("null",    TokenType.NULL);
+        keywords.put("null",   TokenType.NULL);
         keywords.put("true",   TokenType.TRUE);
     }
 
-    Scanner(String source) {
+    public LexicalScanner(String source) {
         this.source = source;
     }
 
-    List<Token> scanTokens() {
+    public List<Token> scanTokens() {
         while (!isAtEnd()) {
             start = current;
             scanToken();

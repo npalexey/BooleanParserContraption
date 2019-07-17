@@ -1,18 +1,20 @@
-package com.nikitiuk.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption.model;
+
+import com.nikitiuk.booleanparsercontraption.service.Contraption;
 
 import java.util.List;
 
-class Parser {
+public class Parser {
     private static class ParseError extends RuntimeException {}
 
     private final List<Token> tokens;
     private int current = 0;
 
-    Parser(List<Token> tokens) {
+    public Parser(List<Token> tokens) {
         this.tokens = tokens;
     }
 
-    Expr parse() {
+    public Expr parse() {
         try {
             return expression();
         } catch (ParseError error) {
@@ -112,7 +114,7 @@ class Parser {
         if (match(TokenType.NULL)) return new Expr.Literal(null);
 
         if (match(TokenType.NUMBER, TokenType.STRING)) {
-            return new Expr.Literal(previous().literal);
+            return new Expr.Literal(previous().getLiteral());
         }
 
         if (match(TokenType.LEFT_PAREN)) {
@@ -142,7 +144,7 @@ class Parser {
 
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
-        return peek().type == type;
+        return peek().getType() == type;
     }
 
     private Token advance() {
@@ -151,7 +153,7 @@ class Parser {
     }
 
     private boolean isAtEnd() {
-        return peek().type == TokenType.EOF;
+        return peek().getType() == TokenType.EOF;
     }
 
     private Token peek() {

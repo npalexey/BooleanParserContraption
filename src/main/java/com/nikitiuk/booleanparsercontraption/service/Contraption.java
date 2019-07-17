@@ -1,4 +1,7 @@
-package com.nikitiuk.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption.service;
+
+import com.nikitiuk.booleanparsercontraption.error.ExceptionHandler;
+import com.nikitiuk.booleanparsercontraption.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,8 +10,8 @@ import java.util.List;
 
 public class Contraption {
     private static final Interpreter interpreter = new Interpreter();
-    static boolean hadError = false;
-    static boolean hadRuntimeError = false;
+    private static boolean hadError = false;
+    private static boolean hadRuntimeError = false;
 
     public static void main(String[] args) throws IOException {
         runPrompt();
@@ -25,8 +28,8 @@ public class Contraption {
     }
 
     private static void run(String source) {
-        Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scanTokens();
+        LexicalScanner lexicalScanner = new LexicalScanner(source);
+        List<Token> tokens = lexicalScanner.scanTokens();
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
 
@@ -36,7 +39,7 @@ public class Contraption {
         interpreter.interpret(expression);
     }
 
-    static void error(int line, String message) {
+    public static void error(int line, String message) {
         report(line, "", message);
     }
 
@@ -46,17 +49,19 @@ public class Contraption {
         hadError = true;
     }
 
-    static void error(Token token, String message) {
-        if (token.type == TokenType.EOF) {
-            report(token.line, " at end", message);
-        } else {
-            report(token.line, " at '" + token.lexeme + "'", message);
+    public static void error(Token token, String message) {
+        if(token != null){
+            if (token.getType() == TokenType.EOF) {
+                report(token.getLine(), " at end", message);
+            } else {
+                report(token.getLine(), " at '" + token.getLexeme() + "'", message);
+            }
         }
     }
 
-    static void runtimeError(RuntimeError error) {
+    public static void runtimeError(ExceptionHandler error) {
         System.err.println(error.getMessage() +
-                "\n[line " + error.token.line + "]");
+                "\n[line " + error.getToken().getLine() + "]");
         hadRuntimeError = true;
     }
 }

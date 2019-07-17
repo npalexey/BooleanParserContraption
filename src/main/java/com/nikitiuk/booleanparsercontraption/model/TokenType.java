@@ -1,6 +1,6 @@
-package com.nikitiuk.booleanparsercontraption;
+package com.nikitiuk.booleanparsercontraption.model;
 
-enum TokenType {
+public enum TokenType {
     LEFT_PAREN, RIGHT_PAREN,
     MINUS, PLUS, SLASH, STAR,
 
