@@ -41,7 +41,6 @@ class Interpreter implements Expr.Visitor<Object> {
                 return -(double)right;
         }
 
-        // Unreachable.
         return null;
     }
 
@@ -64,7 +63,7 @@ class Interpreter implements Expr.Visitor<Object> {
     }
 
     private boolean isEqual(Object a, Object b) {
-        // nil is only equal to nil.
+
         if (a == null && b == null) return true;
         if (a == null) return false;
 
@@ -74,7 +73,6 @@ class Interpreter implements Expr.Visitor<Object> {
     private String stringify(Object object) {
         if (object == null) return "nil";
 
-        // Hack. Work around Java adding ".0" to integer-valued doubles.
         if (object instanceof Double) {
             String text = object.toString();
             if (text.endsWith(".0")) {
@@ -136,7 +134,6 @@ class Interpreter implements Expr.Visitor<Object> {
                 return (double)left * (double)right;
         }
 
-        // Unreachable.
         return null;
     }
 }
