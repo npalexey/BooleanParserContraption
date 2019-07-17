@@ -47,9 +47,15 @@ public class LexicalScanner {
             case '*': addToken(TokenType.STAR); break;
             case '/': addToken(TokenType.SLASH); break;
             case '!': addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG); break;
-            case '=': addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL); break;
             case '<': addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS); break;
             case '>': addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER); break;
+            case '=':
+                if(match('=')){
+                    addToken(TokenType.EQUAL_EQUAL);
+                } else {
+                    Contraption.error(line, "Unexpected character.");
+                }
+                break;
             case '&':
                 if(match('&')){
                     addToken(TokenType.AND);
