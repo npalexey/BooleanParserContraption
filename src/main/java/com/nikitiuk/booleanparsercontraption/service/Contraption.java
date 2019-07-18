@@ -14,12 +14,11 @@ public class Contraption {
     private static final Interpreter interpreter = new Interpreter();
     private static boolean hadError = false;
 
-    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws IOException {
         Map<String, Object> variablesMap = new HashMap<>();
-        variablesMap.put("a", true);
-        variablesMap.put("b", 3);
-        run("3 < 2 == false", variablesMap);
-    }
+        variablesMap.put("a", false);
+        run("a", variablesMap);
+    }*/
 
     private static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
@@ -31,28 +30,34 @@ public class Contraption {
         }
     }
 
-    private static void run(String source, Map varSource) {
+    protected static Boolean run(String source, Map varSource) {
         LexicalScanner lexicalScanner = new LexicalScanner(source, varSource);
         List<Token> tokens = lexicalScanner.scanTokens();
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
 
         // Stop if there was a syntax error.
-        if (hadError) return;
+        if (hadError) {
+            System.out.println("Syntax error");
+            return null;
+        }
 
-        interpreter.interpret(expression);
+        return Boolean.parseBoolean(interpreter.interpret(expression));
     }
 
-    private static void run(String source) {
+    protected static Boolean run(String source) {
         LexicalScanner lexicalScanner = new LexicalScanner(source);
         List<Token> tokens = lexicalScanner.scanTokens();
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
 
         // Stop if there was a syntax error.
-        if (hadError) return;
+        if (hadError) {
+            System.out.println("Syntax error");
+            return null;
+        }
 
-        interpreter.interpret(expression);
+        return Boolean.parseBoolean(interpreter.interpret(expression));
     }
 
     public static void error(int line, String message) {

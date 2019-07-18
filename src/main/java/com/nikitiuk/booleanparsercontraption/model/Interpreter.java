@@ -5,13 +5,15 @@ import com.nikitiuk.booleanparsercontraption.service.Contraption;
 
 public class Interpreter implements Expr.Visitor<Object> {
 
-    public void interpret(Expr expression) {
+    public String interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
             System.out.println(stringify(value));
+            return stringify(value);
         } catch (ExceptionHandler error) {
             Contraption.runtimeError(error);
         }
+        return "Empty Interpreter";
     }
 
     @Override
