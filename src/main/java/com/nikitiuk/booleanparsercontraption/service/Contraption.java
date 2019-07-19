@@ -2,6 +2,8 @@ package com.nikitiuk.booleanparsercontraption.service;
 
 import com.nikitiuk.booleanparsercontraption.error.ExceptionHandler;
 import com.nikitiuk.booleanparsercontraption.model.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.Map;
 public class Contraption {
     private static final Interpreter interpreter = new Interpreter();
     private static boolean hadError = false;
+    private static Logger logger =  LogManager.getLogger(Contraption.class);
 
     /*public static void main(String[] args) throws IOException {
         Map<String, Object> variablesMap = new HashMap<>();
@@ -38,7 +41,7 @@ public class Contraption {
 
         // Stop if there was a syntax error.
         if (hadError) {
-            System.out.println("Syntax error");
+            logger.info("Syntax error");
             return null;
         }
 
@@ -53,7 +56,7 @@ public class Contraption {
 
         // Stop if there was a syntax error.
         if (hadError) {
-            System.out.println("Syntax error");
+            logger.info("Syntax error");
             return null;
         }
 
@@ -65,7 +68,7 @@ public class Contraption {
     }
 
     private static void report(int line, String where, String message) {
-        System.err.println(
+        logger.info(
                 "[line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
@@ -81,7 +84,7 @@ public class Contraption {
     }
 
     public static void runtimeError(ExceptionHandler error) {
-        System.err.println(error.getMessage() +
-                "\n[line " + error.getToken().getLine() + "]");
+        logger.info(error.getMessage());// +
+                //"\n[line " + error.getToken().getLine() + "]");
     }
 }

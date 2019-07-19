@@ -8,7 +8,7 @@ public class Interpreter implements Expr.Visitor<Object> {
     public String interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            //System.out.println(stringify(value));
             return stringify(value);
         } catch (ExceptionHandler error) {
             Contraption.runtimeError(error);
