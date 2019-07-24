@@ -1,25 +1,25 @@
 package com.nikitiuk.booleanparsercontraption.model;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class LexicalScannerTest {
 
-    private static Logger logger = null;
+    private static Logger logger;
 
     @BeforeAll
     public static void setLogger() throws MalformedURLException
     {
-        logger = LogManager.getLogger(LexicalScanner.class);
+        logger = LoggerFactory.getLogger(LexicalScanner.class);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class LexicalScannerTest {
              tokens) {
             logger.info(t.toString());
         }
-        logger.info(tokens);
+        logger.info(tokens.toString());
     }
 
     @Test
@@ -48,6 +48,6 @@ public class LexicalScannerTest {
                 tokens) {
             logger.info(t.toString());
         }
-        logger.info(tokens);
+        logger.info(tokens.toString());
     }
 }

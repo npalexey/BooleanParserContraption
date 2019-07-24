@@ -2,9 +2,8 @@ package com.nikitiuk.booleanparsercontraption.service;
 
 import com.nikitiuk.booleanparsercontraption.error.ExceptionHandler;
 import com.nikitiuk.booleanparsercontraption.model.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,13 +14,13 @@ import java.util.Map;
 public class Contraption {
     private static final Interpreter interpreter = new Interpreter();
     private static boolean hadError = false;
-    private static Logger logger =  LogManager.getLogger(Contraption.class);
+    private static final Logger logger =  LoggerFactory.getLogger(Contraption.class);
 
     /*public static void main(String[] args) throws IOException {
         Map<String, Object> variablesMap = new HashMap<>();
         variablesMap.put("a", false);
         run("a", variablesMap);
-    }*/
+    }
 
     private static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
@@ -31,7 +30,7 @@ public class Contraption {
             //run(reader.readLine());
             hadError = false;
         }
-    }
+    }*/
 
     protected static Boolean run(String source, Map varSource) {
         LexicalScanner lexicalScanner = new LexicalScanner(source, varSource);
